@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <title>Leaflet 1 | Exercici 2</title>
+</head>
+
+<body>
+
+    <style>
+        #mapid {
+            height: 500px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+        }
+
+        img {
+            width: 100%;
+        }
+    </style>
+
+    <div id="mapid"></div>
+
+    <script>
+
+        var map = L.map('mapid').setView([41.403253, 2.207389], 16);
+        var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+        onClick();
+
+        function onClick() {
+            var marker = {};
+
+            map.on('click', function (e) {
+                var coord = e.latlng;
+                var lat = coord.lat;
+                var lng = coord.lng;
+
+                if (marker != undefined) {
+                    map.removeLayer(marker);
+                };
+
+                marker = L.marker([lat, lng]).addTo(map);
+                centerMap(map, marker);
+                marker.bindPopup("Les meves coordenades són:<br>" + "<b>" + "Lat: " + lat + " Lng: " + lng + "</b>").openPopup();
+            });
+        }
+
+        function centerMap(map, marker) {
+            var latLngs = [marker.getLatLng()];
+            var markerBounds = L.latLngBounds(latLngs);
+            map.fitBounds(markerBounds);
+        }
+
+    </script>
+
+</body>
+
+</html>
